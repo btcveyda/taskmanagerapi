@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem auto; max-width: 800px; line-height: 1.5; }
+        .card { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 0.75rem; }
+        .form-control { width: 100%; padding: 0.5rem; box-sizing: border-box; }
+        .form-check { display: flex; align-items: center; gap: 0.5rem; }
+        button { padding: 0.5rem 1rem; }
+        .done { text-decoration: line-through; color: #777; }
+    </style>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <p>Add a task and keep track of what still needs to be done.</p>
+
+    <div class="card">
+        <h2>Add a task</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">{{ form.title }}</div>
+            <div class="form-group">{{ form.description }}</div>
+            <div class="form-group form-check">{{ form.completed }} <label>Completed</label></div>
+            <button type="submit">Save task</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Tasks</h2>
+        {% if tasks %}
+            {% for task in tasks %}
+                <div class="card">
+                    <h3 class="{% if task.completed %}done{% endif %}">{{ task.title }}</h3>
+                    {% if task.description %}<p>{{ task.description }}</p>{% endif %}
+                    <p><strong>Status:</strong> {% if task.completed %}Completed{% else %}Pending{% endif %}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No tasks yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -20,6 +20,6 @@ class TaskViewsTests(TestCase):
             {"title": "Review PR", "description": "Check the diff"},
         )
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(Task.objects.count(), 1)
         self.assertEqual(Task.objects.get().title, "Review PR")
